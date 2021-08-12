@@ -1,0 +1,6 @@
+{
+  "mongoURI": "mongodb+srv://personman61:Liferunsoncode123@dev-connector.mxtrz.mongodb.net/myFirstDatabase?retryWrites=true&w=majority",
+  "jwtToken": "ajalksdUUOosafuewiozcbw",
+  "githubClientId" : "38c64f3832022b13af32",
+  "githubSecret": "4ce9c3bf63f3e3cc2ec6db23a414948eb0c785d6"
+}
