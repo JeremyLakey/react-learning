@@ -42,22 +42,24 @@ router.post('/', [auth, [check('text','Text is require').not().isEmpty()]], asyn
 // @access  Private
 router.delete('/comment/:id/:comment_id', auth, async (req,res) => {
     try {
+
         //get post
         const post = await Post.findById(req.params.id);
 
         //find comment index
-        const comment = post.comments.find(comment => comment.id === req.params.comment_id);
+        const comment = post.comments.find(comment => comment._id == req.params.comment_id);
 
         if(!comment) {
             return res.status(404).json({msg: 'Comment not found'});
         }
+
 
         //check user 
         if(comment.user.toString() !== req.user.id) {
             return res.status(401).json({msg: 'User not authorized'});
         }
 
-        const removeIndex = post.likes.map(comment=> comment.user.toString()).indexOf(req.user.id);
+        const removeIndex = post.comments.map(comment => comment._id.toString()).indexOf(req.params.comment_id);
 
         post.comments.splice(removeIndex, 1);
 
@@ -123,13 +125,13 @@ router.put('/like/:id', auth, async (req, res) => {
             console.log(index);
             post.likes.splice(index, 1);
             await post.save();
-            return res.status(200).json({msg: 'Like removed'});
+            return res.status(200).json(post.likes);
         }
 
         post.likes.push(req.user.id);
         await post.save();
 
-        res.status(200).json({msg: 'Like Add'});
+        res.status(200).json(post.likes);
 
     } catch (err) {
         console.error(err.message);
